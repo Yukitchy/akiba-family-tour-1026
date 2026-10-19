@@ -22,7 +22,7 @@ MEET_Q = 'Akihabara Station Electric Town Exit'
 
 # id, time, short bar name, title, text, bar start/end (min from 10:30), kind
 STEPS = [
- ('10:30', 'Meet at Electric Town Exit', 'We meet at the Electric Town Exit of JR Akihabara Station (proposed, to be confirmed).', 0, 10, 's'),
+ ('10:30', 'Meet at Electric Town Exit', 'We meet at the Electric Town Exit of JR Akihabara Station (proposed, to be confirmed).', None, None, 's'),
  ('10:40', 'Akihabara Radio Kaikan', 'Figures, trading cards and models in one building.', 10, 45, 's'),
  ('11:15', 'Super Potato', 'A retro game shop. Games the parents may have grown up with.', 45, 75, 's'),
  ('11:45', 'Mandarake Complex', 'Second-hand anime goods and manga.', 75, 100, 's'),
@@ -71,6 +71,11 @@ css = open('css.txt').read() + '''
 .spot .cr{font-size:12.5px;color:var(--mute)}.spot .cr a{text-underline-offset:3px}
 .sh2{font-size:clamp(30px,4vw,48px);font-stretch:75%;line-height:1;letter-spacing:-.015em}
 .seg.e{background:var(--ink);color:var(--paper)}
+.steps li{grid-template-columns:62px minmax(0,1fr) 120px;align-items:start}
+.steps em{display:block;font-style:normal;font-size:14px;margin-top:6px}.steps em a{text-underline-offset:3px}
+.steps .th img{width:120px;aspect-ratio:4/3;object-fit:cover;display:block}
+.steps .th.none{width:120px;aspect-ratio:4/3;display:grid;place-items:center;background:var(--seg);font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--mute)}
+@media(max-width:560px){.steps li{grid-template-columns:52px minmax(0,1fr) 84px}.steps .th img,.steps .th.none{width:84px}}
 .draft{display:inline-block;margin-left:8px;font-size:12.5px;font-weight:700;background:var(--seg);padding:1px 8px;vertical-align:middle}
 @media(min-width:760px){.spots{grid-template-columns:1fr 1fr;gap:40px 28px}}
 '''
@@ -78,7 +83,22 @@ facts = ''.join(f'<div><dt>{H(k)}</dt><dd>{H(v)}</dd></div>' for k, v in FACTS)
 segs = ''.join(f'<li class="seg {k}" style="--a:{a};--b:{b}"><b>{H(n)}</b>' + (f'<i>{t} to {H(chr(0)) if False else ""}</i>' if False else '') + '</li>'
                for t, n, d, a, b, k in STEPS if a is not None)
 axis = ''.join(f'<li style="top:calc({m} * var(--s))">{lab}</li>' for m, lab in [(0, '10:30'), (60, '11:30'), (120, '12:30'), (180, '13:30')])
-steps = ''.join(f'<li><b>{t}</b><div><strong>{H(n)}</strong><span>{H(d)}</span></div></li>' for t, n, d, a, b, k in STEPS)
+SP = {sp[0]: sp for sp in SPOTS}
+STEP_KEY = ['meet', 'rk', 'sp', 'md', 'gc', None, 'km', None]
+def step_li(i, row):
+    t, n, d, a, b, k = row
+    sp = SP.get(STEP_KEY[i])
+    if sp:
+        thumb = f'<a class="th" href="#{sp[0]}"><img src="{sp[2]}" alt="{H(sp[3])}" loading="lazy"></a>'
+        links = f'<em><a href="{gm(sp[6])}" target="_blank" rel="noopener">Google Maps ↗</a> · <a href="#{sp[0]}">More about this stop ↓</a></em>'
+    elif k == 'w':
+        thumb = '<span class="th none">LUNCH</span>'
+        links = f'<em><a href="{gm("maid cafe Akihabara")}" target="_blank" rel="noopener">Maid cafés near the route ↗</a></em>'
+    else:
+        thumb = '<span class="th none">END</span>'
+        links = f'<em><a href="{gm(MEET_Q)}" target="_blank" rel="noopener">Back to Akihabara Station ↗</a></em>'
+    return f'<li><b>{t}</b><div><strong>{H(n)}</strong><span>{H(d)}</span>{links}</div>{thumb}</li>'
+steps = ''.join(step_li(i, r) for i, r in enumerate(STEPS))
 spots = ''.join(
     f'<figure class="spot" id="{k}"><img src="{im}" alt="{H(alt)}" loading="lazy"><h3>{H(n)}</h3><p>{H(lead)}</p>'
     f'<ul>{"".join(f"<li>{H(x)}</li>" for x in look)}</ul>'
