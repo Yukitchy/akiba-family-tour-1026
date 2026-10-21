@@ -186,18 +186,17 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 .npin.lunch i{background:var(--ink)}
 @media(min-width:760px){.rcards{grid-template-columns:repeat(3,1fr);gap:18px}.chip i{font-size:11px}}
 @media(min-width:760px){
-.places-g{grid-template-columns:7fr 5fr;gap:32px;align-items:stretch}
-.pmap{order:2;position:relative;top:auto;height:auto;min-height:420px}
-.plist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 18px;border-top:0;padding-top:0}
-.plist li{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0 0 4px;border-bottom:0;border-top:2px solid var(--ink)}
+.places-g{grid-template-columns:1fr;gap:28px}
+.pmap{position:relative;top:auto;height:380px}
+.plist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px;border-top:0}
+.plist li{grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:start;padding:14px 0;border-bottom:0;border-top:1px solid var(--line)}
 .plist li.on{background:none}.plist li.on img{outline:3px solid var(--red);outline-offset:-3px}
-.plist img{width:100%;margin-top:10px}
-.plist strong{font-size:15.5px;margin-top:10px}
-.plist span{font-size:13.5px;line-height:1.5;margin-top:4px}
-.plist a{font-size:13px;margin-top:6px}
-.plist .no{left:6px;top:16px}
+.plist img{width:96px}
+.plist strong{font-size:15px}
+.plist span{font-size:13.5px;line-height:1.45;margin-top:3px}
+.plist a{font-size:13px;margin-top:4px}
+.plist .no{left:-6px;top:8px}
 }
-@media(min-width:1100px){.places-g{grid-template-columns:2fr 1fr}}
 @media(prefers-reduced-motion:reduce){.plist li,.pin i{transition:none}}
 </style></head><body>
 <nav class="nav"><div class="wrap"><a href="#routes">Routes</a><a href="#places">Places</a><a href="#lunch">Lunch</a></div></nav>
@@ -232,7 +231,7 @@ var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce
 var map=L.map('map',{scrollWheelZoom:false});
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 var all=P.map(function(p){return p.ll});
-map.fitBounds(all,{padding:[30,30]});
+map.fitBounds(all,{padding:[36,36]});
 var rows=document.querySelectorAll('.plist li');
 var cards=document.querySelectorAll('.rcard');
 var bar=document.getElementById('rbar');
@@ -260,7 +259,7 @@ function setRoute(r){
  bar.hidden=r<0;
  if(r<0){
   mk.forEach(function(m){m.addTo(map)});
-  map.fitBounds(all,{padding:[30,30]});
+  map.fitBounds(all,{padding:[36,36]});
   return}
  mk.forEach(function(m){map.removeLayer(m)});
  var pts=[];
