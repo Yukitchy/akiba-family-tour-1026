@@ -120,8 +120,8 @@ def lunch_card(i, l):
                 f'<p class="pc">{H(note)} Photo: <a href="{cu}" target="_blank" rel="noopener">{H(cr)}</a>.</p></div></dialog>')
     return (f'<button type="button" class="tile" data-pop="{pid}"><img src="{img}" alt="{H(alt)}" loading="lazy">'
             f'<span class="cb"><span class="gn">{H(genre)}</span><b>{H(name)}</b></span></button>')
-lunch_html = ('<section class="plan" id="lunch"><div class="wrap"><h2 class="sh2">Lunch: pick a place</h2>'
-              '<p class="llead">Lunch is at a maid café or a regular restaurant. Here are ten options. Tap a tile for details, then tell TOKI which one you\'d like.</p>'
+lunch_html = ('<section class="plan" id="lunch"><div class="wrap"><h2 class="sh2">Lunch ideas</h2>'
+              '<p class="llead">Lunch is at a maid café or a regular restaurant. No need to choose now. We\'ll pick on the day, depending on how everyone feels. Here are ten places we might go. Tap a tile for details.</p>'
               '<div class="tiles">' + ''.join(lunch_card(i, l) for i, l in enumerate(LUNCH)) + '</div>'
               '<p class="asof">Hours are from each place\'s official site, checked October 19, 2026. Please confirm with TOKI before the day.</p></div></section>')
 popjs = ("<script>document.querySelectorAll('.tile').forEach(function(t){t.addEventListener('click',function(){document.getElementById(t.dataset.pop).showModal()})});"
