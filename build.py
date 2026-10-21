@@ -243,6 +243,7 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 .plist li.on{background:var(--seg)}
 .plist img{width:104px;aspect-ratio:4/3;object-fit:cover;display:block}
 .plist strong{display:block;font-size:17px;line-height:1.25}
+.plist .cat{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 2px}
 .plist span{display:block;color:var(--mute);font-size:15px;margin-top:2px}
 .plist a{display:inline-block;margin-top:5px;font-size:14px;text-underline-offset:3px}
 .pin i{display:block;width:24px;height:24px;margin:2px;border-radius:50%;background:var(--red);color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px var(--ink);font-style:normal;font-weight:800;font-size:12px;line-height:20px;text-align:center;transition:transform .25s}
@@ -289,7 +290,10 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 @media(prefers-reduced-motion:reduce){.plist li,.pin i{transition:none}}
 '''
 facts = ''.join(f'<div><dt>{H(k)}</dt><dd>{H(v)}</dd></div>' for k, v in FACTS)
-rows = ''.join(f'<li data-i="{i}"><span class="no">{i+1}</span><img src="{im}" alt="{H(alt)}" loading="lazy"><div><strong>{H(n)}</strong><span>{H(t)}</span>'
+CAT = {'rk': 'Shopping', 'md': 'Shopping', 'an': 'Shopping', 'tr': 'Shopping', 'mu': 'Shopping', 'am': 'Shopping',
+       'sp': 'Retro games', 'bp': 'Retro games', 'gg': 'Arcade', 'gc': 'Capsule toys', 'km': 'Shrine',
+       'gs': 'Anime fashion', 'cp': 'Anime fashion', 'rc': 'Old Akihabara', 'ma': 'Old Akihabara'}
+rows = ''.join(f'<li data-i="{i}"><span class="no">{i+1}</span><img src="{im}" alt="{H(alt)}" loading="lazy"><div><span class="cat">{CAT[k]}</span><strong>{H(n)}</strong><span>{H(t)}</span>'
                f'<a href="{gm(q)}" target="_blank" rel="noopener">Google Maps ↗</a></div></li>'
                for i, (k, n, im, alt, t, q, la, lo, cr, cu, sh) in enumerate(PLACES))
 PJS = '[' + ','.join("{'id':'%s','n':'%s','ll':[%s,%s]}" % (k, n, la, lo) for k, n, im, alt, t, q, la, lo, cr, cu, sh in PLACES) + ']'
