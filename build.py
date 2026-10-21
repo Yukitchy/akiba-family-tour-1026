@@ -34,9 +34,9 @@ PLACES = [
  ('rc', 'Akihabara Radio Center', 'img/radiocenter.jpg', 'Tiny electronics shops under the railway tracks',
   'Tiny electronics stalls under the railway tracks, where Akihabara began.', 'Akihabara Radio Center', 35.69848, 139.77166, 'Aimaimyi, CC BY-SA 3.0',
   'https://commons.wikimedia.org/wiki/File:Akihabara_Radio_Center_-00.jpg', 'Radio Center'),
- ('ts', 'Taito Station Akihabara', 'img/taito.jpg', 'The Taito Station arcade with its Space Invaders sign',
-  'A big arcade with crane games, rhythm games and Taiko no Tatsujin.', 'Taito Station Akihabara', 35.70024, 139.77174, 'ElCapitanBSC, CC BY-SA 2.0',
-  'https://commons.wikimedia.org/wiki/File:Taito_Station_Arcade.jpg', 'Taito Station'),
+ ('gg', 'GiGO Akihabara 3', 'img/gigo3.jpg', 'The red GiGO Building 3 on Chuo-dori, with anime posters on the front',
+  'A big arcade on the main street: crane games, photo booths and a retro game floor.', 'GiGO Akihabara 3', 35.69926, 139.77098, 'BWard 1997, CC BY 4.0',
+  'https://commons.wikimedia.org/wiki/File:GiGo_Building_3_-_Akihabara_31-5-2026.jpg', 'GiGO'),
  ('ma', 'mAAch ecute Kanda Manseibashi', 'img/maach.jpg', 'Old red-brick railway arches turned into shops',
   'Old railway arches turned into small shops and cafés.', 'mAAch ecute Kanda Manseibashi', 35.69772, 139.76945, 'Wei-Te Wong, CC BY-SA 2.0',
   'https://commons.wikimedia.org/wiki/File:MAAch_ecute_%E7%A5%9E%E7%94%B0%E8%90%AC%E4%B8%96%E6%A9%8B_(49292011986).jpg', 'mAAch ecute'),
@@ -49,7 +49,7 @@ ROUTES = [
  ('Find your favorite', 'Kids with a favorite anime they want goods for.',
   'Straight to the shops for your series: new goods, used finds and capsule toys.', ['an', 'md', 'L', 'gc', 'rk']),
  ('Retro and games', 'Parents who grew up with Nintendo or SEGA, kids who like arcades.',
-  'Old electronics alleys, retro games and an arcade.', ['rc', 'sp', 'L', 'ts', 'gc']),
+  'Old electronics alleys, retro games and an arcade.', ['rc', 'sp', 'L', 'gg', 'gc']),
 ]
 HERO = ('img/chuo.jpg', 'Chuo-dori, the main street of Akihabara, with anime billboards',
         'Chuo-dori, the main street of Akihabara.', 'Wikimedia Commons, CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Akihabara_(53152331538).jpg')
@@ -241,7 +241,19 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 .npin i{display:block;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px var(--ink);font-style:normal;font-weight:800;font-size:13px;line-height:22px;text-align:center}
 .npin.lunch i{background:var(--ink)}
 @media(min-width:760px){.rcards{grid-template-columns:repeat(3,1fr);gap:18px}.chip i{font-size:11px}}
-@media(min-width:760px){.places-g{grid-template-columns:7fr 5fr;gap:40px;align-items:start}.pmap{order:2;top:76px;height:clamp(360px,70vh,560px)}.plist li{padding:18px 10px;grid-template-columns:132px minmax(0,1fr)}.plist img{width:132px}}
+@media(min-width:760px){
+.places-g{grid-template-columns:7fr 5fr;gap:32px;align-items:stretch}
+.pmap{order:2;position:relative;top:auto;height:auto;min-height:420px}
+.plist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 18px;border-top:0;padding-top:0}
+.plist li{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0 0 4px;border-bottom:0;border-top:2px solid var(--ink)}
+.plist li.on{background:none}.plist li.on img{outline:3px solid var(--red);outline-offset:-3px}
+.plist img{width:100%;margin-top:10px}
+.plist strong{font-size:15.5px;margin-top:10px}
+.plist span{font-size:13.5px;line-height:1.5;margin-top:4px}
+.plist a{font-size:13px;margin-top:6px}
+.plist .no{left:6px;top:16px}
+}
+@media(min-width:1100px){.places-g{grid-template-columns:2fr 1fr}}
 @media(prefers-reduced-motion:reduce){.plist li,.pin i{transition:none}}
 '''
 facts = ''.join(f'<div><dt>{H(k)}</dt><dd>{H(v)}</dd></div>' for k, v in FACTS)
