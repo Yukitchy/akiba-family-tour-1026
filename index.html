@@ -248,7 +248,7 @@ function go(i){
  cur=i;
  rows.forEach(function(r,j){r.classList.toggle('on',j===i)});
  mk.forEach(function(m,j){var e=m.getElement();if(e){e.classList.toggle('on',j===i)}});
- if(reduce){map.setView(P[i].ll,17)}else{map.flyTo(P[i].ll,17,{duration:.9})}
+ if(reduce){map.setView(P[i].ll,17)}else{map.flyTo(P[i].ll,17,{duration:.6})}
 }
 function setRoute(r){
  route=r;cur=-1;
@@ -280,7 +280,15 @@ cards.forEach(function(c,j){c.addEventListener('click',function(){
  if(!again){document.getElementById('places').scrollIntoView({behavior:reduce?'auto':'smooth'})}
 })});
 document.getElementById('rreset').addEventListener('click',function(){setRoute(-1)});
-if('IntersectionObserver' in window){
+if(window.matchMedia('(min-width:760px) and (hover:hover)').matches){
+ rows.forEach(function(r){var i=+r.dataset.i;r.addEventListener('mouseenter',function(){go(i)});r.addEventListener('focusin',function(){go(i)})});
+ document.querySelector('.plist').addEventListener('mouseleave',function(){
+  if(route>=0){return}
+  cur=-1;rows.forEach(function(r){r.classList.remove('on')});
+  mk.forEach(function(m){var e=m.getElement();if(e){e.classList.remove('on')}});
+  map.flyToBounds(all,{padding:[36,36],duration:reduce?0:.6});
+ });
+}else if('IntersectionObserver' in window){
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(+e.target.dataset.i)}})},{rootMargin:'-45% 0px -45% 0px'});
  rows.forEach(function(r){io.observe(r)});
 }
