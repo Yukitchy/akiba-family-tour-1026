@@ -62,16 +62,6 @@ LUNCH = [
   'The best-known maid café in Akihabara, on several floors of one building. Children aged 6 and under get a kids card and a free kids drink.',
   'Monday 11:00 to 22:00', FEE_AH, 'at-home cafe Akihabara Main 1-11-4 Sotokanda Chiyoda', 'https://www.cafe-athome.com/cafes/',
   'Example photo, not this café.'),
- ('at-home cafe Akiba Cultures Zone', 'Akiba Cultures Zone, 5F', 'img/athome-zone.jpg', 'A blue cream soda with ice cream on a wooden table in a maid café',
-  'Yumeto, CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:20260728_Ice_cream_soda_in_Okashi_no_Maid.jpg',
-  'The same at-home cafe, in the Akiba Cultures Zone building on the fifth floor. Same menu style and the same prices as the main building.',
-  'Monday 11:00 to 22:00', FEE_AH, 'AKIBA Cultures ZONE 1-7-6 Sotokanda Chiyoda', 'https://www.cafe-athome.com/cafes/',
-  'Example photo, not this café.'),
- ('at-home cafe Akihabara Donki', 'Inside Don Quijote, 5F', 'img/athome-food.jpg', 'Cute food and drinks at an at-home cafe',
-  'Purupurucat, CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Maid_cafe_kawaii_food.jpg',
-  'The third at-home cafe, on the fifth floor of the Don Quijote store in Akihabara. Same system and prices as the other two.',
-  'Monday 11:00 to 22:00', FEE_AH, 'Don Quijote Akihabara 4-3-3 Sotokanda Chiyoda', 'https://www.cafe-athome.com/cafes/',
-  'Example photo, not this café.'),
  ('maidreamin Akihabara Main Store', 'Maidreamin, 6F', 'img/maid-cake.jpg', 'A maid café cheesecake',
   'panina.anna, CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Maid_cafe_-_Welcome_at_home_cheesecake_(2009-04-23_22.54.52_by_panina.anna).jpg',
   'A big chain that started in Akihabara. Its FAQ says families with children are welcome, with table seats recommended. Children up to sixth grade get a free ice cream.',
@@ -98,16 +88,6 @@ LUNCH = [
   'The Akihabara Station Front branch of a big sushi chain. The store has an elevator and a diaper-changing station.',
   'Monday 11:00 to 23:00', 'No seat charge. Ordering a meal is the normal way to use the restaurant.', 'Sushiro Akihabara Ekimae 1-18-19 Sotokanda Chiyoda', 'https://www.akindo-sushiro.co.jp/shop/detail.php?id=2143&keyword=',
   'Example photo, not this restaurant.'),
- ('Kanda Yabusoba', 'Soba (buckwheat noodles)', 'img/soba.jpg', 'A bowl of soba noodles with tempura',
-  '妖精書士, CC0', 'https://commons.wikimedia.org/wiki/File:Tempura_soba_by_Kawamuraya,_Yokohama.jpg',
-  'A soba restaurant in Kanda Awajicho. It is closed on Wednesdays, and an English menu is listed on the Chiyoda tourism site.',
-  'Monday 11:30 to last order 20:00', 'No seat charge. Ordering a meal is the normal way to use the restaurant.', 'Kanda Yabusoba 2-10 Kandaawajicho Chiyoda', 'https://yabusoba.net/',
-  'Example photo, not this restaurant.'),
- ('Densetsu no Sutadonya Yodobashi Akiba', 'Meat rice bowls', 'img/donburi.jpg', 'A bowl of beef and green pepper on rice, on a tray',
-  'Andy Li, CC0', 'https://commons.wikimedia.org/wiki/File:Sesame_Beef_Don_-_Pompoko_2024-07-03.jpg',
-  'A rice-bowl restaurant on the restaurant floor of Yodobashi Akiba, with 42 seats. Its official page lists no kids\' menu.',
-  'Monday 11:00 to 23:00 (last order 22:00)', 'No seat charge. Ordering a meal is the normal way to use the restaurant.', 'Yodobashi Akiba 1-1 Kandahanaokacho Chiyoda', 'https://www.yodobashi-akiba.com/restaurant/yy_suta.html',
-  'Example photo, not this restaurant.'),
 ]
 POPS = []
 def lunch_card(i, l):
@@ -121,7 +101,7 @@ def lunch_card(i, l):
     return (f'<button type="button" class="tile" data-pop="{pid}"><img src="{img}" alt="{H(alt)}" loading="lazy">'
             f'<span class="cb"><span class="gn">{H(genre)}</span><b>{H(name)}</b></span></button>')
 lunch_html = ('<section class="plan" id="lunch"><div class="wrap"><h2 class="sh2">Lunch ideas</h2>'
-              '<p class="llead">Lunch is at a maid café or a regular restaurant. No need to choose now. We\'ll pick on the day, depending on how everyone feels. Here are ten places we might go. Tap a tile for details.</p>'
+              '<p class="llead">Lunch is at a maid café or a regular restaurant. No need to choose now. We\'ll pick on the day, depending on how everyone feels. Here are six places we might go. Tap a tile for details.</p>'
               '<div class="tiles">' + ''.join(lunch_card(i, l) for i, l in enumerate(LUNCH)) + '</div>'
               '<p class="asof">Hours are from each place\'s official site, checked October 19, 2026. Please confirm with TOKI before the day.</p></div></section>')
 popjs = ("<script>document.querySelectorAll('.tile').forEach(function(t){t.addEventListener('click',function(){document.getElementById(t.dataset.pop).showModal()})});"
