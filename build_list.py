@@ -24,7 +24,7 @@ open('return-list.html','w').write(f'''<!doctype html><html lang="en"><head><met
 <title>{T}</title><meta name="robots" content="noindex"><meta name="description" content="{D}"><meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e60012'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='800' text-anchor='middle' fill='white' font-family='Arial'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:title" content="{T}"><meta property="og:description" content="{D}"><meta property="og:type" content="website"><meta property="og:url" content="{BASE}return-list.html">
-<meta property="og:image" content="{BASE}img/chuo.jpg"><meta property="og:image:width" content="960"><meta property="og:image:height" content="640"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="{BASE}img/og.png?v=2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <style>:root{{--red:#e60012;--ink:#111;--mute:#666;--line:#e5e5e5}}*{{box-sizing:border-box}}body{{margin:0;background:#fff;color:var(--ink);font:17px/1.5 "Helvetica Neue",Arial,sans-serif;border-top:10px solid var(--red)}}
 main{{max-width:640px;margin:0 auto;padding:28px 18px 56px}}h1{{font-size:clamp(26px,8vw,34px);line-height:1.15;margin:0 0 8px;white-space:nowrap}}.lead{{color:var(--mute);margin:0 0 24px}}
 ul{{list-style:none;padding:0;margin:0}}li{{border-top:3px solid var(--red);padding:14px 0 20px}}h2{{font-size:21px;margin:0}}p{{margin:4px 0}}.k{{color:var(--red);font-weight:700;font-size:14px}}.h{{margin-top:8px}}
