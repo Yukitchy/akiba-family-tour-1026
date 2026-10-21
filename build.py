@@ -120,16 +120,22 @@ var R=__R__;
 if(!window.L){return}
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var map=L.map('map',{scrollWheelZoom:false});
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+var base=L.maplibreGL({style:'https://tiles.openfreemap.org/styles/positron',attribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(map);
+function english(){var gl=base.getMaplibreMap();gl.getStyle().layers.forEach(function(l){if(l.type!=='symbol'){return}
+ if(/shield/.test(l.id)){gl.setLayoutProperty(l.id,'visibility','none');return}
+ if(l.layout&&l.layout['text-field']){gl.setLayoutProperty(l.id,'text-field',['coalesce',['get','name:en'],['get','name_en'],['get','name:latin']])}})}
+
 var all=P.map(function(p){return p.ll});
 map.fitBounds(all,{padding:[36,36]});
+var gl=base.getMaplibreMap();
+if(gl){var enDone=false;var tryEn=function(){if(enDone||!(gl.style&&gl.style._loaded)){return}enDone=true;english()};gl.on('style.load',tryEn);gl.on('styledata',tryEn);tryEn()}
 var rows=document.querySelectorAll('.plist li');
 var cards=document.querySelectorAll('.rcard');
 var bar=document.getElementById('rbar');
 var byId={};
 P.forEach(function(p,i){byId[p.id]=i});
 var mk=P.map(function(p,i){
- var m=L.marker(p.ll,{icon:L.divIcon({className:'pin',html:'<i></i>',iconSize:[22,22]}),title:p.n}).addTo(map);
+ var m=L.marker(p.ll,{icon:L.divIcon({className:'pin',html:'<i>'+(i+1)+'</i>',iconSize:[28,28]}),title:p.n}).addTo(map);
  m.on('click',function(){rows[i].scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})});
  return m});
 var rg=L.layerGroup().addTo(map);
@@ -146,7 +152,7 @@ function setRoute(r){
  rg.clearLayers();
  cards.forEach(function(c,j){c.classList.toggle('on',j===r);c.setAttribute('aria-pressed',j===r?'true':'false')});
  document.body.classList.toggle('hasroute',r>=0);
- rows.forEach(function(row){row.classList.remove('inr');row.classList.remove('on');row.querySelector('.no').textContent=''});
+ rows.forEach(function(row){row.classList.remove('inr');row.classList.remove('on');row.querySelector('.no').textContent=+row.dataset.i+1});
  bar.hidden=r<0;
  if(r<0){
   mk.forEach(function(m){m.addTo(map)});
@@ -221,8 +227,8 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 .plist strong{display:block;font-size:17px;line-height:1.25}
 .plist span{display:block;color:var(--mute);font-size:15px;margin-top:2px}
 .plist a{display:inline-block;margin-top:5px;font-size:14px;text-underline-offset:3px}
-.pin i{display:block;width:16px;height:16px;margin:3px;border-radius:50%;background:var(--red);border:2px solid #fff;box-shadow:0 0 0 1px var(--ink);transition:transform .25s}
-.pin.on i{transform:scale(1.7);background:var(--ink);box-shadow:0 0 0 3px var(--red)}
+.pin i{display:block;width:24px;height:24px;margin:2px;border-radius:50%;background:var(--red);color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px var(--ink);font-style:normal;font-weight:800;font-size:12px;line-height:20px;text-align:center;transition:transform .25s}
+.pin.on i{transform:scale(1.35);background:var(--ink);box-shadow:0 0 0 3px var(--red)}
 .pfoot{margin:14px 0 0;font-size:14px;color:var(--mute)}
 .rcards{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}
 .rcard{display:flex;flex-direction:column;justify-content:flex-start;width:100%;text-align:left;font:inherit;color:inherit;background:#fff;border:1px solid var(--line);padding:16px 16px 14px;cursor:pointer;position:relative}
@@ -243,9 +249,10 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 .rbar[hidden]{display:none}
 .rbar button{font:inherit;font-size:13px;font-weight:700;background:var(--ink);color:var(--paper);border:0;padding:7px 14px;cursor:pointer}
 .plist li{position:relative}
-.plist .no{display:none;position:absolute;left:0;top:10px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;font-weight:800;text-align:center;line-height:24px;z-index:2}
+.plist .no{display:block;position:absolute;left:0;top:10px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;font-weight:800;text-align:center;line-height:24px;z-index:2}
 .hasroute .plist li:not(.inr){opacity:.45}
 .hasroute .plist li.inr .no{display:block}
+.hasroute .plist li:not(.inr) .no{display:none}
 .npin i{display:block;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px var(--ink);font-style:normal;font-weight:800;font-size:13px;line-height:22px;text-align:center}
 .npin.lunch i{background:var(--ink)}
 @media(min-width:760px){.rcards{grid-template-columns:repeat(3,1fr);gap:18px}.chip i{font-size:11px}}
@@ -264,7 +271,7 @@ dialog.pop::backdrop{background:rgba(0,0,0,.55)}
 @media(prefers-reduced-motion:reduce){.plist li,.pin i{transition:none}}
 '''
 facts = ''.join(f'<div><dt>{H(k)}</dt><dd>{H(v)}</dd></div>' for k, v in FACTS)
-rows = ''.join(f'<li data-i="{i}"><span class="no"></span><img src="{im}" alt="{H(alt)}" loading="lazy"><div><strong>{H(n)}</strong><span>{H(t)}</span>'
+rows = ''.join(f'<li data-i="{i}"><span class="no">{i+1}</span><img src="{im}" alt="{H(alt)}" loading="lazy"><div><strong>{H(n)}</strong><span>{H(t)}</span>'
                f'<a href="{gm(q)}" target="_blank" rel="noopener">Google Maps ↗</a></div></li>'
                for i, (k, n, im, alt, t, q, la, lo, cr, cu, sh) in enumerate(PLACES))
 PJS = '[' + ','.join("{'id':'%s','n':'%s','ll':[%s,%s]}" % (k, n, la, lo) for k, n, im, alt, t, q, la, lo, cr, cu, sh in PLACES) + ']'
@@ -318,6 +325,9 @@ page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name
 <details class="cred"><summary>Photo credits</summary><p>{credits}. Photos via Wikimedia Commons.</p></details></div></footer>
 {''.join(POPS)}{popjs}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
 <script>{JS}</script>
 </body></html>'''
 open('index.html', 'w').write(page)
